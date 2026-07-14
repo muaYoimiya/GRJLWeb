@@ -8,22 +8,7 @@
 </head>
 <body>
     <!-- 导航栏 -->
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <div class="logo">
-                    <img src="images/ui/3y7.jpeg" alt="Logo" class="logo-img">
-                    <h1>我的简历</h1>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="index.html">首页</a></li>
-                    <li><a href="about.html">个人简介</a></li>
-                    <li><a href="projects.html" class="active">项目展示</a></li>
-                    <li><a href="contact.html">联系方式</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
+    <header></header>
 
     <!-- 项目展示内容 -->
     <main class="projects-content">
@@ -32,122 +17,12 @@
 
             <!-- 筛选和排序 -->
             <div class="filter-sort">
-                <div class="filter">
-                    <h4>分类筛选：</h4>
-                    <button class="filter-btn active" data-category="all">全部</button>
-                    <button class="filter-btn" data-category="backend">后端项目</button>
-                    <button class="filter-btn" data-category="frontend">前端项目</button>
-                    <button class="filter-btn" data-category="fullstack">全栈项目</button>
-                </div>
-                <div class="sort">
-                    <h4>排序：</h4>
-                    <select id="sort-select">
-                        <option value="date-desc">时间降序</option>
-                        <option value="date-asc">时间升序</option>
-                        <option value="name-asc">名称升序</option>
-                        <option value="name-desc">名称降序</option>
-                    </select>
-                </div>
+                <div class="filter"></div>
+                <div class="sort"></div>
             </div>
 
             <!-- 项目列表 -->
-            <div class="projects-grid" id="projects-grid">
-                <!-- 项目卡片1 -->
-                <div class="project-card" data-category="frontend" data-date="2023-12" data-name="个人博客">
-                    <div class="project-image">
-                        <img src="images/personal_blog/ltbk.png" alt="个人博客">
-                    </div>
-                    <div class="project-info">
-                        <h3>个人博客</h3>
-                        <p>使用React和Node.js开发的个人博客系统，支持文章发布、评论等功能。</p>
-                        <a href="project-detail.html?id=1" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片2 -->
-                <div class="project-card" data-category="frontend" data-date="2023-10" data-name="电商网站">
-                    <div class="project-image">
-                        <img src="images/ecommerce_website/dswz.png" alt="电商网站">
-                    </div>
-                    <div class="project-info">
-                        <h3>电商网站</h3>
-                        <p>基于Vue.js开发的响应式电商网站，包含商品展示、购物车等功能。</p>
-                        <a href="project-detail.html?id=2" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片3 -->
-                <div class="project-card" data-category="backend" data-date="2023-08" data-name="API接口服务">
-                    <div class="project-image">
-                        <img src="images/api_service/API.png" alt="API接口服务">
-                    </div>
-                    <div class="project-info">
-                        <h3>API接口服务</h3>
-                        <p>使用Node.js和Express开发的RESTful API接口服务，提供数据访问功能。</p>
-                        <a href="project-detail.html?id=3" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片4 -->
-                <div class="project-card" data-category="fullstack" data-date="2023-06" data-name="任务管理系统">
-                    <div class="project-image">
-                        <img src="images/task_management_system/rwgl.png" alt="任务管理系统">
-                    </div>
-                    <div class="project-info">
-                        <h3>任务管理系统</h3>
-                        <p>前后端分离的任务管理系统，使用React和Spring Boot开发。</p>
-                        <a href="project-detail.html?id=4" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片5 -->
-                <div class="project-card" data-category="frontend" data-date="2023-04" data-name="响应式网站">
-                    <div class="project-image">
-                        <img src="images/responsive_website/xyswz.png" alt="响应式网站">
-                    </div>
-                    <div class="project-info">
-                        <h3>响应式网站</h3>
-                        <p>使用HTML、CSS和JavaScript开发的响应式网站，适配各种设备。</p>
-                        <a href="project-detail.html?id=5" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片6 -->
-                <div class="project-card" data-category="fullstack" data-date="2023-02" data-name="在线聊天系统">
-                    <div class="project-image">
-                        <img src="images/online_chat_system/ltrj.png" alt="在线聊天系统">
-                    </div>
-                    <div class="project-info">
-                        <h3>在线聊天系统</h3>
-                        <p>基于WebSocket的实时在线聊天系统，支持多用户聊天。</p>
-                        <a href="project-detail.html?id=6" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片7 -->
-                <div class="project-card" data-category="backend" data-date="2022-12" data-name="数据管理平台">
-                    <div class="project-image">
-                        <img src="images/data_management_platform/sjgl.png" alt="数据管理平台">
-                    </div>
-                    <div class="project-info">
-                        <h3>数据管理平台</h3>
-                        <p>使用Python和Django开发的数据管理平台，支持数据导入导出。</p>
-                        <a href="project-detail.html?id=7" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-
-                <!-- 项目卡片8 -->
-                <div class="project-card" data-category="frontend" data-date="2022-10" data-name="移动应用界面">
-                    <div class="project-image">
-                        <img src="images/mobile_app_interface/ydsrj.jpg" alt="移动应用界面">
-                    </div>
-                    <div class="project-info">
-                        <h3>移动应用界面</h3>
-                        <p>使用Flutter开发的移动应用界面，实现了各种交互效果。</p>
-                        <a href="project-detail.html?id=8" class="view-detail">查看详情</a>
-                    </div>
-                </div>
-            </div>
+            <div class="projects-grid" id="projects-grid"></div>
 
             <!-- 分页 -->
             <div class="pagination">
@@ -159,27 +34,7 @@
     </main>
 
     <!-- 页脚 -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-info">
-                    <h3>Yanami</h3>
-                    <p>Java后端开发工程师</p>
-                    <p>邮箱：1433223@qq.com</p>
-                    <p>电话：11451419198</p>
-                </div>
-                <div class="footer-links">
-                    <a href="index.html">首页</a>
-                    <a href="about.html">个人简介</a>
-                    <a href="projects.html">项目展示</a>
-                    <a href="contact.html">联系方式</a>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2077 Yanami. 保留所有权利.</p>
-            </div>
-        </div>
-    </footer>
+    <footer></footer>
 
     <script type="module" src="js/main.js"></script>
 </body>

@@ -1,0 +1,114 @@
+/**
+ * 公共渲染模块
+ * 负责渲染导航栏和页脚
+ */
+
+import { siteConfig, navItems, footerData } from '../data/common.js';
+import { createElement } from '../utils.js';
+
+/**
+ * 渲染导航栏
+ * @param {string} containerSelector - 导航栏容器选择器
+ * @param {string} currentPageId - 当前页面标识
+ */
+export function renderNavbar(containerSelector, currentPageId) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const nav = document.createElement('nav');
+    nav.className = 'navbar';
+
+    const inner = document.createElement('div');
+    inner.className = 'container';
+
+    // Logo
+    const logoDiv = document.createElement('div');
+    logoDiv.className = 'logo';
+    const logoImg = document.createElement('img');
+    logoImg.src = siteConfig.logo;
+    logoImg.alt = 'Logo';
+    logoImg.className = 'logo-img';
+    const logoTitle = document.createElement('h1');
+    logoTitle.textContent = siteConfig.name;
+    logoDiv.appendChild(logoImg);
+    logoDiv.appendChild(logoTitle);
+
+    // 导航菜单
+    const ul = document.createElement('ul');
+    ul.className = 'nav-menu';
+    navItems.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = item.href;
+        a.textContent = item.label;
+        if (item.id === currentPageId) {
+            a.classList.add('active');
+        }
+        li.appendChild(a);
+        ul.appendChild(li);
+    });
+
+    inner.appendChild(logoDiv);
+    inner.appendChild(ul);
+    nav.appendChild(inner);
+    container.appendChild(nav);
+}
+
+/**
+ * 渲染页脚
+ * @param {string} containerSelector - 页脚容器选择器
+ */
+export function renderFooter(containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+
+    container.innerHTML = '';
+
+    const inner = document.createElement('div');
+    inner.className = 'container';
+
+    const content = document.createElement('div');
+    content.className = 'footer-content';
+
+    // 品牌信息
+    const infoDiv = document.createElement('div');
+    infoDiv.className = 'footer-info';
+    const brandName = document.createElement('h3');
+    brandName.textContent = footerData.brand.name;
+    const brandTitle = document.createElement('p');
+    brandTitle.textContent = footerData.brand.title;
+    const emailP = document.createElement('p');
+    emailP.textContent = `邮箱：${footerData.contact.email}`;
+    const phoneP = document.createElement('p');
+    phoneP.textContent = `电话：${footerData.contact.phone}`;
+    infoDiv.appendChild(brandName);
+    infoDiv.appendChild(brandTitle);
+    infoDiv.appendChild(emailP);
+    infoDiv.appendChild(phoneP);
+
+    // 链接
+    const linksDiv = document.createElement('div');
+    linksDiv.className = 'footer-links';
+    footerData.links.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.textContent = link.label;
+        linksDiv.appendChild(a);
+    });
+
+    content.appendChild(infoDiv);
+    content.appendChild(linksDiv);
+
+    // 底部版权
+    const bottom = document.createElement('div');
+    bottom.className = 'footer-bottom';
+    const copyrightP = document.createElement('p');
+    copyrightP.textContent = siteConfig.copyright;
+    bottom.appendChild(copyrightP);
+
+    inner.appendChild(content);
+    inner.appendChild(bottom);
+    container.appendChild(inner);
+}
