@@ -28,11 +28,13 @@ export function renderProjectDetail() {
     const techStackEl = document.getElementById('project-tech-stack');
     if (techStackEl) {
         techStackEl.innerHTML = '';
+        const fragment = document.createDocumentFragment();
         project.techStack.forEach(tech => {
             const span = document.createElement('span');
             span.textContent = tech;
-            techStackEl.appendChild(span);
+            fragment.appendChild(span);
         });
+        techStackEl.appendChild(fragment);
     }
 
     // 链接
@@ -56,17 +58,24 @@ function renderGallery(project) {
     container.innerHTML = '';
     indicatorsContainer.innerHTML = '';
 
+    const slidesFragment = document.createDocumentFragment();
+    const indicatorsFragment = document.createDocumentFragment();
+
     project.galleryImages.forEach((src, index) => {
         const slide = document.createElement('div');
         slide.className = 'gallery-slide' + (index === 0 ? ' active' : '');
         const img = document.createElement('img');
         img.src = src;
         img.alt = `项目截图${index + 1}`;
+        img.loading = 'lazy';
         slide.appendChild(img);
-        container.appendChild(slide);
+        slidesFragment.appendChild(slide);
 
         const indicator = document.createElement('span');
         indicator.className = 'indicator' + (index === 0 ? ' active' : '');
-        indicatorsContainer.appendChild(indicator);
+        indicatorsFragment.appendChild(indicator);
     });
+
+    container.appendChild(slidesFragment);
+    indicatorsContainer.appendChild(indicatorsFragment);
 }

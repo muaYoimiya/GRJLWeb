@@ -17,13 +17,15 @@ export function renderFilters() {
     title.textContent = '分类筛选：';
     filterContainer.appendChild(title);
 
+    const fragment = document.createDocumentFragment();
     filterCategories.forEach((cat, index) => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn' + (index === 0 ? ' active' : '');
         btn.dataset.category = cat.key;
         btn.textContent = cat.label;
-        filterContainer.appendChild(btn);
+        fragment.appendChild(btn);
     });
+    filterContainer.appendChild(fragment);
 }
 
 /**
@@ -57,6 +59,7 @@ export function renderProjectCards() {
     if (!grid) return;
 
     grid.innerHTML = '';
+    const fragment = document.createDocumentFragment();
 
     projects.forEach(project => {
         const card = document.createElement('div');
@@ -70,6 +73,7 @@ export function renderProjectCards() {
         const img = document.createElement('img');
         img.src = project.image;
         img.alt = project.name;
+        img.loading = 'lazy';
         imageDiv.appendChild(img);
 
         const infoDiv = document.createElement('div');
@@ -89,6 +93,8 @@ export function renderProjectCards() {
 
         card.appendChild(imageDiv);
         card.appendChild(infoDiv);
-        grid.appendChild(card);
+        fragment.appendChild(card);
     });
+
+    grid.appendChild(fragment);
 }

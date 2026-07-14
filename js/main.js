@@ -1,32 +1,10 @@
 /**
  * 应用入口模块
- * 统一调用渲染层填充页面内容，再调用交互层绑定事件
+ * 按页面动态加载模块，减少首屏解析时间；非关键内容延迟到下一帧渲染
  */
 
 import { onDOMReady, getCurrentPage } from './utils.js';
-
-// 公共渲染
 import { renderNavbar, renderFooter } from './render/common.js';
-
-// 首页
-import { renderCarousel, renderProfile } from './render/home.js';
-import { initCarousel } from './index_1.js';
-import { initScrollAnimation } from './index_2.js';
-
-// 个人简介页
-import { renderPersonalInfo, renderSkills, renderTimeline } from './render/about.js';
-
-// 项目展示页
-import { renderFilters, renderSortSelect, renderProjectCards } from './render/projects.js';
-import { initProjectFilter } from './projects_1.js';
-
-// 项目详情页
-import { renderProjectDetail } from './render/projectDetail.js';
-import { initProjectGallery } from './project-detail_1.js';
-
-// 联系方式页
-import { renderContactInfo, renderContactForm } from './render/contact.js';
-import { initFormValidation } from './contact_1.js';
 
 function initApp() {
     const currentPage = getCurrentPage();
@@ -43,44 +21,86 @@ function initApp() {
     renderNavbar('header', currentPageId);
     renderFooter('footer');
 
-    // 按页面渲染内容并绑定交互
     switch (currentPage) {
         case 'index.html':
-            renderCarousel();
-            renderProfile();
-            initCarousel();
-            initScrollAnimation();
+            initHome();
             break;
-
         case 'about.html':
-            renderPersonalInfo();
-            renderSkills();
-            renderTimeline();
-            initScrollAnimation();
+            initAbout();
             break;
-
         case 'projects.html':
-            renderFilters();
-            renderSortSelect();
-            renderProjectCards();
-            initProjectFilter();
-            initScrollAnimation();
+            initProjects();
             break;
-
         case 'project-detail.html':
-            renderProjectDetail();
-            initProjectGallery();
+            initProjectDetail();
             break;
-
         case 'contact.html':
-            renderContactInfo();
-            renderContactForm();
-            initFormValidation();
+            initContact();
             break;
-
         default:
             break;
     }
+}
+
+async function initHome() {
+    const [{ renderCarousel, renderProfile }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
+        import('./render/home.js'),
+        import('./index_1.js'),
+        import('./index_2.js'),
+    ]);
+    renderCarousel();
+    renderProfile();
+    initCarousel();
+    initScrollAnimation();
+}
+
+async function initAbout() {
+    const [{ renderPersonalInfo, renderSkills, renderTimeline }, { initScrollAnimation }] = await Promise.all([
+        import('./render/about.js'),
+        import('./index_2.js'),
+    ]);
+    renderPersonalInfo();
+    // 技能和经历延迟到下一帧，让首屏个人信息先呈现
+    requestAnimationFrame(() => {
+        renderSkills();
+        renderTimeline();
+        initScrollAnimation();
+    });
+}
+
+async function initProjects() {
+    const [{ renderFilters, renderSortSelect, renderProjectCards }, { initProjectFilter }, { initScrollAnimation }] = await Promise.all([
+        import('./render/projects.js'),
+        import('./projects_1.js'),
+        import('./index_2.js'),
+    ]);
+    renderFilters();
+    renderSortSelect();
+    // 卡片列表延迟一帧，让筛选器先显示
+    requestAnimationFrame(() => {
+        renderProjectCards();
+        initProjectFilter();
+        initScrollAnimation();
+    });
+}
+
+async function initProjectDetail() {
+    const [{ renderProjectDetail }, { initProjectGallery }] = await Promise.all([
+        import('./render/projectDetail.js'),
+        import('./project-detail_1.js'),
+    ]);
+    renderProjectDetail();
+    initProjectGallery();
+}
+
+async function initContact() {
+    const [{ renderContactInfo, renderContactForm }, { initFormValidation }] = await Promise.all([
+        import('./render/contact.js'),
+        import('./contact_1.js'),
+    ]);
+    renderContactInfo();
+    renderContactForm();
+    initFormValidation();
 }
 
 onDOMReady(initApp);

@@ -14,6 +14,8 @@ export function renderPersonalInfo() {
 
     section.innerHTML = '';
 
+    const fragment = document.createDocumentFragment();
+
     const basicDiv = document.createElement('div');
     basicDiv.className = 'info-item';
     const basicTitle = document.createElement('h3');
@@ -54,8 +56,9 @@ export function renderPersonalInfo() {
         jobDiv.appendChild(p);
     });
 
-    section.appendChild(basicDiv);
-    section.appendChild(jobDiv);
+    fragment.appendChild(basicDiv);
+    fragment.appendChild(jobDiv);
+    section.appendChild(fragment);
 }
 
 /**
@@ -73,6 +76,7 @@ export function renderSkills() {
 
     const categoriesDiv = document.createElement('div');
     categoriesDiv.className = 'skills-categories';
+    const fragment = document.createDocumentFragment();
 
     skillCategories.forEach(category => {
         const categoryDiv = document.createElement('div');
@@ -97,9 +101,10 @@ export function renderSkills() {
             categoryDiv.appendChild(itemDiv);
         });
 
-        categoriesDiv.appendChild(categoryDiv);
+        fragment.appendChild(categoryDiv);
     });
 
+    categoriesDiv.appendChild(fragment);
     section.appendChild(categoriesDiv);
 }
 
@@ -118,6 +123,7 @@ export function renderTimeline() {
 
     const itemsDiv = document.createElement('div');
     itemsDiv.className = 'timeline-items';
+    const fragment = document.createDocumentFragment();
 
     timelineItems.forEach(item => {
         const itemDiv = document.createElement('div');
@@ -146,8 +152,9 @@ export function renderTimeline() {
 
         itemDiv.appendChild(dateDiv);
         itemDiv.appendChild(contentDiv);
-        itemsDiv.appendChild(itemDiv);
+        fragment.appendChild(itemDiv);
     });
 
+    itemsDiv.appendChild(fragment);
     section.appendChild(itemsDiv);
 }

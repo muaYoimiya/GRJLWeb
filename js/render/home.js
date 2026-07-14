@@ -16,6 +16,9 @@ export function renderCarousel() {
     container.innerHTML = '';
     indicatorsContainer.innerHTML = '';
 
+    const slidesFragment = document.createDocumentFragment();
+    const indicatorsFragment = document.createDocumentFragment();
+
     carouselSlides.forEach((slide, index) => {
         const slideDiv = document.createElement('div');
         slideDiv.className = 'carousel-slide' + (index === 0 ? ' active' : '');
@@ -25,12 +28,15 @@ export function renderCarousel() {
         p.textContent = slide.description;
         slideDiv.appendChild(h2);
         slideDiv.appendChild(p);
-        container.appendChild(slideDiv);
+        slidesFragment.appendChild(slideDiv);
 
         const indicator = document.createElement('span');
         indicator.className = 'indicator' + (index === 0 ? ' active' : '');
-        indicatorsContainer.appendChild(indicator);
+        indicatorsFragment.appendChild(indicator);
     });
+
+    container.appendChild(slidesFragment);
+    indicatorsContainer.appendChild(indicatorsFragment);
 }
 
 /**
@@ -45,6 +51,7 @@ export function renderProfile() {
     const img = document.createElement('img');
     img.src = profileData.avatar;
     img.alt = '个人照片';
+    img.loading = 'lazy';
     photoContainer.appendChild(img);
 
     infoContainer.innerHTML = '';
@@ -57,11 +64,13 @@ export function renderProfile() {
 
     const skillsDiv = document.createElement('div');
     skillsDiv.className = 'skills';
+    const skillsFragment = document.createDocumentFragment();
     profileData.skills.forEach(skill => {
         const span = document.createElement('span');
         span.textContent = skill;
-        skillsDiv.appendChild(span);
+        skillsFragment.appendChild(span);
     });
+    skillsDiv.appendChild(skillsFragment);
 
     infoContainer.appendChild(name);
     infoContainer.appendChild(title);

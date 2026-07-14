@@ -17,6 +17,7 @@ export function renderContactInfo() {
     section.innerHTML = '';
     if (title) section.appendChild(title);
 
+    const fragment = document.createDocumentFragment();
     contactInfo.forEach(info => {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'info-item';
@@ -26,6 +27,7 @@ export function renderContactInfo() {
             icon.src = info.icon;
             icon.alt = info.label.replace('：', '');
             icon.className = 'info-icon';
+            icon.loading = 'lazy';
             itemDiv.appendChild(icon);
         }
 
@@ -47,8 +49,9 @@ export function renderContactInfo() {
 
         itemDiv.appendChild(labelSpan);
         itemDiv.appendChild(valueSpan);
-        section.appendChild(itemDiv);
+        fragment.appendChild(itemDiv);
     });
+    section.appendChild(fragment);
 }
 
 /**
@@ -59,6 +62,7 @@ export function renderContactForm() {
     if (!form) return;
 
     form.innerHTML = '';
+    const fragment = document.createDocumentFragment();
 
     formFields.forEach(field => {
         const group = document.createElement('div');
@@ -87,12 +91,14 @@ export function renderContactForm() {
         group.appendChild(label);
         group.appendChild(input);
         group.appendChild(errorSpan);
-        form.appendChild(group);
+        fragment.appendChild(group);
     });
 
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
     submitBtn.className = 'submit-btn';
     submitBtn.textContent = '咕咕bird传书';
-    form.appendChild(submitBtn);
+    fragment.appendChild(submitBtn);
+
+    form.appendChild(fragment);
 }

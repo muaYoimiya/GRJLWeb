@@ -27,5 +27,6 @@ export function initScrollAnimation() {
     });
     
     window.addEventListener('scroll', throttle(checkVisibility, 100));
-    checkVisibility();
+    // 延迟到下一帧再读取位置，避免强制同步布局
+    requestAnimationFrame(checkVisibility);
 }

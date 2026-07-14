@@ -4,7 +4,6 @@
  */
 
 import { siteConfig, navItems, footerData } from '../data/common.js';
-import { createElement } from '../utils.js';
 
 /**
  * 渲染导航栏
@@ -30,6 +29,7 @@ export function renderNavbar(containerSelector, currentPageId) {
     logoImg.src = siteConfig.logo;
     logoImg.alt = 'Logo';
     logoImg.className = 'logo-img';
+    logoImg.loading = 'lazy';
     const logoTitle = document.createElement('h1');
     logoTitle.textContent = siteConfig.name;
     logoDiv.appendChild(logoImg);
@@ -38,6 +38,7 @@ export function renderNavbar(containerSelector, currentPageId) {
     // 导航菜单
     const ul = document.createElement('ul');
     ul.className = 'nav-menu';
+    const navFragment = document.createDocumentFragment();
     navItems.forEach(item => {
         const li = document.createElement('li');
         const a = document.createElement('a');
@@ -47,8 +48,9 @@ export function renderNavbar(containerSelector, currentPageId) {
             a.classList.add('active');
         }
         li.appendChild(a);
-        ul.appendChild(li);
+        navFragment.appendChild(li);
     });
+    ul.appendChild(navFragment);
 
     inner.appendChild(logoDiv);
     inner.appendChild(ul);
@@ -91,12 +93,14 @@ export function renderFooter(containerSelector) {
     // 链接
     const linksDiv = document.createElement('div');
     linksDiv.className = 'footer-links';
+    const linksFragment = document.createDocumentFragment();
     footerData.links.forEach(link => {
         const a = document.createElement('a');
         a.href = link.href;
         a.textContent = link.label;
-        linksDiv.appendChild(a);
+        linksFragment.appendChild(a);
     });
+    linksDiv.appendChild(linksFragment);
 
     content.appendChild(infoDiv);
     content.appendChild(linksDiv);
