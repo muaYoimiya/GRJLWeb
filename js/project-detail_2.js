@@ -3,9 +3,10 @@
  * 负责根据URL参数加载对应项目的详细信息
  */
 
+import { getElementById, getURLParam, createElement } from './utils.js';
+
 export function loadProjectDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const projectId = urlParams.get('id');
+    const projectId = getURLParam('id');
     
     if (!projectId) return;
     
@@ -63,22 +64,24 @@ export function loadProjectDetails() {
     const project = projects.find(p => p.id === projectId);
     
     if (project) {
-        document.getElementById('project-title').textContent = project.title;
-        document.getElementById('project-description').textContent = project.description;
+        const titleElement = getElementById('project-title');
+        const descriptionElement = getElementById('project-description');
+        const techStackContainer = getElementById('project-tech-stack');
+        const demoLink = getElementById('project-demo');
+        const githubLink = getElementById('project-github');
         
-        const techStackContainer = document.getElementById('project-tech-stack');
-        techStackContainer.innerHTML = '';
-        project.techStack.forEach(tech => {
-            const span = document.createElement('span');
-            span.textContent = tech;
-            techStackContainer.appendChild(span);
-        });
+        if (titleElement) titleElement.textContent = project.title;
+        if (descriptionElement) descriptionElement.textContent = project.description;
         
-        document.getElementById('project-demo').href = project.demoLink;
-        document.getElementById('project-github').href = project.githubLink;
+        if (techStackContainer) {
+            techStackContainer.innerHTML = '';
+            project.techStack.forEach(tech => {
+                const span = createElement('span', { textContent: tech });
+                techStackContainer.appendChild(span);
+            });
+        }
+        
+        if (demoLink) demoLink.href = project.demoLink;
+        if (githubLink) githubLink.href = project.githubLink;
     }
-}
-
-if (window.location.pathname.includes('project-detail.html')) {
-    document.addEventListener('DOMContentLoaded', loadProjectDetails);
 }

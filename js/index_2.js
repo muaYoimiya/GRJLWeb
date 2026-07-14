@@ -1,10 +1,12 @@
 /**
- * 首页滚动动画模块
- * 负责首页元素的滚动进入动画效果
+ * 页面滚动动画模块
+ * 负责页面元素的滚动进入动画效果
  */
 
+import { getElements, throttle } from './utils.js';
+
 export function initScrollAnimation() {
-    const elements = document.querySelectorAll('.skills-section, .timeline, .project-card');
+    const elements = getElements('.skills-section, .timeline, .project-card');
     
     function checkVisibility() {
         elements.forEach(element => {
@@ -24,8 +26,6 @@ export function initScrollAnimation() {
         element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
     
-    window.addEventListener('scroll', checkVisibility);
+    window.addEventListener('scroll', throttle(checkVisibility, 100));
     checkVisibility();
 }
-
-document.addEventListener('DOMContentLoaded', initScrollAnimation);

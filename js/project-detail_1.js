@@ -3,12 +3,14 @@
  * 负责项目详情页图片画廊的切换和自动播放功能
  */
 
+import { getElement, getElements, addEventListeners } from './utils.js';
+
 export function initProjectGallery() {
-    const gallery = document.querySelector('.project-gallery');
+    const gallery = getElement('.project-gallery');
     if (!gallery) return;
     
-    const slides = document.querySelectorAll('.gallery-slide');
-    const indicators = document.querySelectorAll('.gallery-indicators .indicator');
+    const slides = getElements('.gallery-slide');
+    const indicators = getElements('.gallery-indicators .indicator');
     let currentSlide = 0;
     
     function showSlide(index) {
@@ -20,10 +22,10 @@ export function initProjectGallery() {
         currentSlide = index;
     }
     
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            showSlide(index);
-        });
+    addEventListeners(indicators, 'click', (e) => {
+        const indicator = e.target;
+        const index = Array.from(indicators).indexOf(indicator);
+        showSlide(index);
     });
     
     setInterval(() => {
@@ -31,5 +33,3 @@ export function initProjectGallery() {
         showSlide(nextIndex);
     }, 3000);
 }
-
-document.addEventListener('DOMContentLoaded', initProjectGallery);

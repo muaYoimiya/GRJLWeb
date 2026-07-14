@@ -3,19 +3,21 @@
  * 负责联系表单的实时验证和提交验证功能
  */
 
+import { getElementById, addEventListeners, validateEmail } from './utils.js';
+
 export function initFormValidation() {
-    const contactForm = document.getElementById('contactForm');
+    const contactForm = getElementById('contactForm');
     if (!contactForm) return;
     
-    const nameInput = document.getElementById('name');
-    const emailInput = document.getElementById('email');
-    const subjectInput = document.getElementById('subject');
-    const messageInput = document.getElementById('message');
+    const nameInput = getElementById('name');
+    const emailInput = getElementById('email');
+    const subjectInput = getElementById('subject');
+    const messageInput = getElementById('message');
     
-    const nameError = document.getElementById('name-error');
-    const emailError = document.getElementById('email-error');
-    const subjectError = document.getElementById('subject-error');
-    const messageError = document.getElementById('message-error');
+    const nameError = getElementById('name-error');
+    const emailError = getElementById('email-error');
+    const subjectError = getElementById('subject-error');
+    const messageError = getElementById('message-error');
     
     function validateName() {
         if (nameInput.value.trim() === '') {
@@ -27,9 +29,8 @@ export function initFormValidation() {
         }
     }
     
-    function validateEmail() {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value)) {
+    function validateEmailField() {
+        if (!validateEmail(emailInput.value)) {
             emailError.textContent = '请输入有效的邮箱地址';
             return false;
         } else {
@@ -58,14 +59,16 @@ export function initFormValidation() {
         }
     }
     
-    nameInput.addEventListener('blur', validateName);
-    emailInput.addEventListener('blur', validateEmail);
-    subjectInput.addEventListener('blur', validateSubject);
-    messageInput.addEventListener('blur', validateMessage);
+    const inputs = [nameInput, emailInput, subjectInput, messageInput];
+    const validators = [validateName, validateEmailField, validateSubject, validateMessage];
+    
+    inputs.forEach((input, index) => {
+        input.addEventListener('blur', validators[index]);
+    });
     
     contactForm.addEventListener('submit', function(e) {
         const isNameValid = validateName();
-        const isEmailValid = validateEmail();
+        const isEmailValid = validateEmailField();
         const isSubjectValid = validateSubject();
         const isMessageValid = validateMessage();
         
@@ -78,5 +81,3 @@ export function initFormValidation() {
         }
     });
 }
-
-document.addEventListener('DOMContentLoaded', initFormValidation);

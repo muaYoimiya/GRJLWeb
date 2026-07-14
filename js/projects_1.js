@@ -3,28 +3,29 @@
  * 负责项目卡片的分类筛选和排序功能
  */
 
+import { getElementById, getElements, addEventListeners } from './utils.js';
+
 export function initProjectFilter() {
-    const projectsGrid = document.getElementById('projects-grid');
+    const projectsGrid = getElementById('projects-grid');
     if (!projectsGrid) return;
     
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const sortSelect = document.getElementById('sort-select');
-    const projectCards = Array.from(document.querySelectorAll('.project-card'));
+    const filterBtns = getElements('.filter-btn');
+    const sortSelect = getElementById('sort-select');
+    const projectCards = Array.from(getElements('.project-card'));
     
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            
-            const category = btn.dataset.category;
-            
-            projectCards.forEach(card => {
-                if (category === 'all' || card.dataset.category === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    addEventListeners(filterBtns, 'click', (e) => {
+        const btn = e.target;
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        const category = btn.dataset.category;
+        
+        projectCards.forEach(card => {
+            if (category === 'all' || card.dataset.category === category) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
         });
     });
     
@@ -50,5 +51,3 @@ export function initProjectFilter() {
         visibleCards.forEach(card => projectsGrid.appendChild(card));
     });
 }
-
-document.addEventListener('DOMContentLoaded', initProjectFilter);

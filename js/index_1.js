@@ -3,12 +3,14 @@
  * 负责首页轮播图的自动播放、指示器切换等功能
  */
 
+import { getElement, getElements, addEventListeners } from './utils.js';
+
 export function initCarousel() {
-    const carousel = document.querySelector('.carousel');
+    const carousel = getElement('.carousel');
     if (!carousel) return;
     
-    const slides = document.querySelectorAll('.carousel-slide');
-    const indicators = document.querySelectorAll('.indicator');
+    const slides = getElements('.carousel-slide');
+    const indicators = getElements('.indicator');
     let currentSlide = 0;
     let slideInterval = null;
     
@@ -26,19 +28,17 @@ export function initCarousel() {
         showSlide(nextIndex);
     }
     
-    indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => {
-            showSlide(index);
-            resetInterval();
-        });
-    });
-    
     function resetInterval() {
         clearInterval(slideInterval);
         slideInterval = setInterval(nextSlide, 3000);
     }
     
+    addEventListeners(indicators, 'click', (e) => {
+        const indicator = e.target;
+        const index = Array.from(indicators).indexOf(indicator);
+        showSlide(index);
+        resetInterval();
+    });
+    
     slideInterval = setInterval(nextSlide, 3000);
 }
-
-document.addEventListener('DOMContentLoaded', initCarousel);
