@@ -5,7 +5,7 @@
 
 export const carouselSlides = [
     {
-        title: 'Java后端pg开发工程师',
+        title: 'Java后端开发工程师',
         description: '熟练掌握Java、Spring Boot、MyBatis等后端技术',
     },
     {

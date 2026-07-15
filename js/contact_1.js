@@ -13,11 +13,20 @@ export function initFormValidation() {
     const emailInput = getElementById('email');
     const subjectInput = getElementById('subject');
     const messageInput = getElementById('message');
-    
+
     const nameError = getElementById('name-error');
     const emailError = getElementById('email-error');
     const subjectError = getElementById('subject-error');
     const messageError = getElementById('message-error');
+    const messageCharCount = getElementById('message-char-count');
+
+    // 实时字数统计
+    if (messageInput && messageCharCount) {
+        messageInput.addEventListener('input', function() {
+            const count = messageInput.value.length;
+            messageCharCount.textContent = `已输入${count}字`;
+        });
+    }
     
     function validateName() {
         if (nameInput.value.trim() === '') {

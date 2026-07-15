@@ -90,6 +90,16 @@ export function renderContactForm() {
 
         group.appendChild(label);
         group.appendChild(input);
+
+        // 为消息内容添加实时字数统计
+        if (field.id === 'message') {
+            const charCount = document.createElement('span');
+            charCount.className = 'char-count';
+            charCount.id = 'message-char-count';
+            charCount.textContent = '已输入0字';
+            group.appendChild(charCount);
+        }
+
         group.appendChild(errorSpan);
         fragment.appendChild(group);
     });
