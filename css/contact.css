@@ -38,6 +38,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 5px;
     font-size: 1rem;
+    font-family: 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 
 .form-group textarea {
