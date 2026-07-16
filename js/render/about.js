@@ -27,6 +27,7 @@ export function renderPersonalInfo() {
         { label: '年龄：', value: basicInfo.age },
         { label: '学历：', value: basicInfo.education },
         { label: '专业：', value: basicInfo.major },
+        { label: '工作经验：', value: basicInfo.experience },
     ];
     basicData.forEach(item => {
         const p = document.createElement('p');
@@ -46,6 +47,8 @@ export function renderPersonalInfo() {
         { label: '职位：', value: jobIntention.position },
         { label: '期望薪资：', value: jobIntention.salary },
         { label: '工作地点：', value: jobIntention.location },
+        { label: '工作时长：', value: jobIntention.workHours },
+        { label: '福利待遇：', value: jobIntention.benefits },
     ];
     jobData.forEach(item => {
         const p = document.createElement('p');

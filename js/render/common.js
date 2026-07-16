@@ -59,6 +59,33 @@ export function renderNavbar(containerSelector, currentPageId) {
 }
 
 /**
+ * 渲染移动端底部导航栏
+ * @param {string} currentPageId - 当前页面标识
+ */
+export function renderMobileNav(currentPageId) {
+    // 项目详情页高亮项目展示
+    const activeId = currentPageId === 'project-detail' ? 'projects' : currentPageId;
+
+    let mobileNav = document.querySelector('.mobile-nav');
+    if (!mobileNav) {
+        mobileNav = document.createElement('nav');
+        mobileNav.className = 'mobile-nav';
+        document.body.appendChild(mobileNav);
+    }
+    mobileNav.innerHTML = '';
+
+    const fragment = document.createDocumentFragment();
+    navItems.forEach(item => {
+        const a = document.createElement('a');
+        a.href = item.href;
+        a.className = 'mobile-nav-item' + (item.id === activeId ? ' active' : '');
+        a.textContent = item.label;
+        fragment.appendChild(a);
+    });
+    mobileNav.appendChild(fragment);
+}
+
+/**
  * 渲染页脚
  * @param {string} containerSelector - 页脚容器选择器
  */

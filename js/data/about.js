@@ -9,12 +9,15 @@ export const basicInfo = {
     age: '20岁',
     education: '本科在读',
     major: '软件工程',
+    experience: '3年',
 };
 
 export const jobIntention = {
     position: 'Java后端开发工程师',
     salary: '18K-20K',
     location: '深圳',
+    workHours: '双休',
+    benefits: '有年终奖&加班双倍工资',
 };
 
 export const skillCategories = [

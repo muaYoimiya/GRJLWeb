@@ -4,7 +4,7 @@
  */
 
 import { onDOMReady, getCurrentPage } from './utils.js';
-import { renderNavbar, renderFooter } from './render/common.js';
+import { renderNavbar, renderMobileNav, renderFooter } from './render/common.js';
 
 function initApp() {
     const currentPage = getCurrentPage();
@@ -19,6 +19,7 @@ function initApp() {
 
     // 渲染公共部分
     renderNavbar('header', currentPageId);
+    renderMobileNav(currentPageId);
     renderFooter('footer');
 
     switch (currentPage) {
@@ -69,7 +70,7 @@ async function initAbout() {
 }
 
 async function initProjects() {
-    const [{ renderFilters, renderSortSelect, renderProjectCards }, { initProjectFilter }, { initScrollAnimation }] = await Promise.all([
+    const [{ renderFilters, renderSortSelect, renderProjectCards, renderPagination }, { initProjectFilter }, { initScrollAnimation }] = await Promise.all([
         import('./render/projects.js'),
         import('./projects_1.js'),
         import('./index_2.js'),
@@ -79,6 +80,7 @@ async function initProjects() {
     // 卡片列表延迟一帧，让筛选器先显示
     requestAnimationFrame(() => {
         renderProjectCards();
+        renderPagination();
         initProjectFilter();
         initScrollAnimation();
     });
