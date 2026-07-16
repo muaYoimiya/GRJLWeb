@@ -122,6 +122,10 @@
     footer {
         margin-bottom: 56px;
     }
+
+    .carousel {
+        height: 200px;
+    }
 }
 
 @media (max-width: 480px) {

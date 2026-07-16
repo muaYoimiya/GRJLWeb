@@ -33,7 +33,7 @@ export function renderFilters() {
 }
 
 /**
- * 渲染排序下拉框
+ * 渲染自定义排序下拉框
  */
 export function renderSortSelect() {
     const sortContainer = document.querySelector('.sort');
@@ -44,15 +44,55 @@ export function renderSortSelect() {
     title.textContent = '排序：';
     sortContainer.appendChild(title);
 
-    const select = document.createElement('select');
-    select.id = 'sort-select';
-    sortOptions.forEach(opt => {
-        const option = document.createElement('option');
-        option.value = opt.value;
-        option.textContent = opt.label;
-        select.appendChild(option);
+    const customSort = document.createElement('div');
+    customSort.className = 'custom-sort';
+
+    const trigger = document.createElement('button');
+    trigger.className = 'sort-trigger';
+    trigger.type = 'button';
+    trigger.innerHTML = `<span class="sort-selected">${sortOptions[0].label}</span><span class="sort-arrow">▼</span>`;
+
+    const dropdown = document.createElement('ul');
+    dropdown.className = 'sort-dropdown';
+    sortOptions.forEach((opt, index) => {
+        const li = document.createElement('li');
+        li.className = 'sort-option' + (index === 0 ? ' active' : '');
+        li.dataset.value = opt.value;
+        li.textContent = opt.label;
+        dropdown.appendChild(li);
     });
-    sortContainer.appendChild(select);
+
+    customSort.appendChild(trigger);
+    customSort.appendChild(dropdown);
+    sortContainer.appendChild(customSort);
+
+    // 点击触发按钮展开/收起下拉列表
+    trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        customSort.classList.toggle('open');
+    });
+
+    // 点击选项选中并关闭下拉
+    dropdown.addEventListener('click', (e) => {
+        const option = e.target.closest('.sort-option');
+        if (!option) return;
+
+        dropdown.querySelectorAll('.sort-option').forEach(o => o.classList.remove('active'));
+        option.classList.add('active');
+        customSort.querySelector('.sort-selected').textContent = option.textContent;
+        customSort.classList.remove('open');
+
+        // 触发自定义事件供外部监听
+        customSort.dispatchEvent(new CustomEvent('sortchange', {
+            detail: { value: option.dataset.value },
+            bubbles: true,
+        }));
+    });
+
+    // 点击外部关闭下拉
+    document.addEventListener('click', () => {
+        customSort.classList.remove('open');
+    });
 }
 
 /**

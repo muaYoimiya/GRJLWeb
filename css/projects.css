@@ -40,6 +40,87 @@
     background-color: white;
 }
 
+/* 自定义排序下拉 */
+.custom-sort {
+    position: relative;
+    display: inline-block;
+    min-width: 140px;
+    user-select: none;
+}
+
+.sort-trigger {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: #2c3e50;
+    transition: border-color 0.3s ease;
+}
+
+.sort-trigger:hover {
+    border-color: #3498db;
+}
+
+.sort-arrow {
+    font-size: 0.7rem;
+    color: #999;
+    transition: transform 0.3s ease;
+}
+
+.custom-sort.open .sort-arrow {
+    transform: rotate(180deg);
+}
+
+.sort-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 6px 0;
+    list-style: none;
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    transition: all 0.2s ease;
+    z-index: 100;
+}
+
+.custom-sort.open .sort-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.sort-option {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.sort-option:hover {
+    background-color: #f0f8ff;
+    color: #3498db;
+}
+
+.sort-option.active {
+    background-color: #3498db;
+    color: white;
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

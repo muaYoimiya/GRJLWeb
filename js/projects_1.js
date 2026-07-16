@@ -12,7 +12,7 @@ export function initProjectFilter() {
     if (!projectsGrid) return;
 
     const filterBtns = getElements('.filter-btn');
-    const sortSelect = getElementById('sort-select');
+    const sortContainer = document.querySelector('.custom-sort');
 
     addEventListeners(filterBtns, 'click', (e) => {
         const btn = e.target;
@@ -25,17 +25,21 @@ export function initProjectFilter() {
             : projects.filter(p => p.category === category);
 
         setFilteredProjects(filtered);
-        applySort(sortSelect.value);
+        const activeSort = sortContainer?.querySelector('.sort-option.active');
+        applySort(activeSort?.dataset.value || 'date-desc');
         renderProjectCards(1);
         renderPagination();
     });
 
-    sortSelect.addEventListener('change', () => {
-        applySort(sortSelect.value);
-        setCurrentPageNum(1);
-        renderProjectCards(1);
-        renderPagination();
-    });
+    // 监听自定义排序事件
+    if (sortContainer) {
+        sortContainer.addEventListener('sortchange', (e) => {
+            applySort(e.detail.value);
+            setCurrentPageNum(1);
+            renderProjectCards(1);
+            renderPagination();
+        });
+    }
 
     // 分页点击事件
     const paginationContainer = document.querySelector('.pagination');
