@@ -77,3 +77,77 @@ export function renderProfile() {
     infoContainer.appendChild(bio);
     infoContainer.appendChild(skillsDiv);
 }
+
+/**
+ * 初始化头像视差倾斜效果
+ * PC端根据鼠标位置偏移，移动端根据重力感应偏移
+ */
+export function initProfileTilt() {
+    const container = document.querySelector('.profile-photo');
+    const img = container?.querySelector('img');
+    if (!container || !img) return;
+
+    const maxOffset = 15;
+    const lerpFactor = 0.12;
+    const stopThreshold = 0.05;
+    const normalizeFactor = 300;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let rafId = null;
+
+    function update() {
+        const diffX = targetX - currentX;
+        const diffY = targetY - currentY;
+
+        if (Math.abs(diffX) < stopThreshold && Math.abs(diffY) < stopThreshold) {
+            currentX = targetX;
+            currentY = targetY;
+            img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
+            rafId = null;
+            return;
+        }
+
+        currentX += diffX * lerpFactor;
+        currentY += diffY * lerpFactor;
+        img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
+        rafId = requestAnimationFrame(update);
+    }
+
+    function scheduleUpdate() {
+        if (!rafId) {
+            rafId = requestAnimationFrame(update);
+        }
+    }
+
+    function onMouseMove(e) {
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distX = e.clientX - centerX;
+        const distY = e.clientY - centerY;
+
+        targetX = Math.max(-maxOffset, Math.min(maxOffset, distX / normalizeFactor * maxOffset));
+        targetY = Math.max(-maxOffset, Math.min(maxOffset, distY / normalizeFactor * maxOffset));
+        scheduleUpdate();
+    }
+
+    function onDeviceOrientation(e) {
+        const gamma = e.gamma || 0;
+        const beta = e.beta || 0;
+
+        targetX = Math.max(-maxOffset, Math.min(maxOffset, gamma / 45 * maxOffset));
+        targetY = Math.max(-maxOffset, Math.min(maxOffset, (beta - 45) / 45 * maxOffset));
+        scheduleUpdate();
+    }
+
+    const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
+    if (isTouchDevice && window.DeviceOrientationEvent) {
+        window.addEventListener('deviceorientation', onDeviceOrientation);
+    } else {
+        window.addEventListener('mousemove', onMouseMove);
+    }
+}

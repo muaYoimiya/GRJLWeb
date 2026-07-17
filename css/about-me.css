@@ -17,12 +17,22 @@
     gap: 2rem;
 }
 
-.profile-photo img {
+.profile-photo {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    object-fit: cover;
     border: 5px solid #3498db;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.profile-photo img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+    will-change: transform;
 }
 
 .profile-info h2 {

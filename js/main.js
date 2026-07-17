@@ -44,13 +44,14 @@ function initApp() {
 }
 
 async function initHome() {
-    const [{ renderCarousel, renderProfile }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
+    const [{ renderCarousel, renderProfile, initProfileTilt }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
         import('./render/home.js'),
         import('./index_1.js'),
         import('./index_2.js'),
     ]);
     renderCarousel();
     renderProfile();
+    initProfileTilt();
     initCarousel();
     initScrollAnimation();
 }
