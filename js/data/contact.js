@@ -24,7 +24,7 @@ export const contactInfo = [
         label: 'GitHub：',
         value: 'https://github.com/muaYoimiya/GRJLWeb',
         isLink: true,
-        href: '#',
+        href: 'https://github.com/muaYoimiya/GRJLWeb',
     },
     {
         icon: null,

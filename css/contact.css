@@ -95,6 +95,13 @@
     min-width: 60px;
 }
 
+.info-value {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    min-width: 0;
+    flex: 1;
+}
+
 .info-value a {
     color: #3498db;
     text-decoration: none;

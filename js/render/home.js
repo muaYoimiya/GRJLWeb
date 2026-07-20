@@ -98,6 +98,8 @@ export function initProfileTilt() {
     let currentY = 0;
     let rafId = null;
 
+    img.style.transform = 'translate(0px, 0px) scale(1.1)';
+
     function update() {
         const diffX = targetX - currentX;
         const diffY = targetY - currentY;
@@ -134,62 +136,36 @@ export function initProfileTilt() {
         scheduleUpdate();
     }
 
-    function onTouchMove(e) {
-        if (usingOrientation) return;
-        const touch = e.touches[0];
-        const rect = container.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const distX = touch.clientX - centerX;
-        const distY = touch.clientY - centerY;
-
-        targetX = Math.max(-maxOffset, Math.min(maxOffset, distX / normalizeFactor * maxOffset));
-        targetY = Math.max(-maxOffset, Math.min(maxOffset, distY / normalizeFactor * maxOffset));
-        scheduleUpdate();
-    }
-
-    let usingOrientation = false;
-
-    function onDeviceOrientation(e) {
-        const gamma = e.gamma;
-        const beta = e.beta;
-        // 部分浏览器首次事件数据为 null，需过滤
-        if (gamma == null || beta == null) return;
-
-        if (!usingOrientation) {
-            usingOrientation = true;
-            window.removeEventListener('touchmove', onTouchMove);
-            window.removeEventListener('mousemove', onMouseMove);
-        }
-
-        targetX = Math.max(-maxOffset, Math.min(maxOffset, gamma / 45 * maxOffset));
-        targetY = Math.max(-maxOffset, Math.min(maxOffset, (beta - 45) / 45 * maxOffset));
-        scheduleUpdate();
-    }
-
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
     if (isTouchDevice) {
-        // 触摸设备优先尝试陀螺仪，同时用 touchmove 兜底
-        if (window.DeviceOrientationEvent) {
-            window.addEventListener('deviceorientation', onDeviceOrientation);
-        }
-        window.addEventListener('touchmove', onTouchMove, { passive: true });
+        let isOrbiting = false;
+        container.addEventListener('click', () => {
+            if (isOrbiting) return;
+            isOrbiting = true;
 
-        // iOS 13+ 需要用户交互后才能申请陀螺仪权限
-        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-            const requestPermission = () => {
-                DeviceOrientationEvent.requestPermission()
-                    .then(state => {
-                        if (state === 'granted') {
-                            window.addEventListener('deviceorientation', onDeviceOrientation);
-                        }
-                    })
-                    .catch(() => {});
-            };
-            window.addEventListener('click', requestPermission, { once: true });
-            window.addEventListener('touchstart', requestPermission, { once: true });
-        }
+            const radius = 10;
+            const duration = 1000;
+            const startTime = performance.now();
+
+            function animate(now) {
+                const elapsed = now - startTime;
+                if (elapsed >= duration) {
+                    img.style.transform = 'translate(0px, 0px) scale(1.1)';
+                    isOrbiting = false;
+                    return;
+                }
+
+                const progress = elapsed / duration;
+                const angle = progress * 2 * Math.PI;
+                const x = radius * Math.cos(angle);
+                const y = radius * Math.sin(angle);
+                img.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(1.1)`;
+                requestAnimationFrame(animate);
+            }
+
+            requestAnimationFrame(animate);
+        });
     } else {
         window.addEventListener('mousemove', onMouseMove);
     }
