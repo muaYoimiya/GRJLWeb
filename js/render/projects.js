@@ -21,6 +21,8 @@ export function renderFilters() {
     title.textContent = '分类筛选：';
     filterContainer.appendChild(title);
 
+    const btnWrap = document.createElement('div');
+    btnWrap.className = 'filter-buttons';
     const fragment = document.createDocumentFragment();
     filterCategories.forEach((cat, index) => {
         const btn = document.createElement('button');
@@ -29,7 +31,8 @@ export function renderFilters() {
         btn.textContent = cat.label;
         fragment.appendChild(btn);
     });
-    filterContainer.appendChild(fragment);
+    btnWrap.appendChild(fragment);
+    filterContainer.appendChild(btnWrap);
 }
 
 /**

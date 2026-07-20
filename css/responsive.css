@@ -77,7 +77,38 @@
 
     .filter-sort {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+        gap: 0.75rem;
+    }
+
+    .filter {
+        gap: 0.4rem;
+    }
+
+    .filter h4 {
+        margin-right: 0;
+        font-size: 0.9rem;
+    }
+
+    .filter-buttons {
+        gap: 0.4rem;
+    }
+
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+        border-radius: 4px;
+    }
+
+    .sort {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .sort h4 {
+        margin-right: 0;
+        font-size: 0.9rem;
     }
 
     .projects-grid {
