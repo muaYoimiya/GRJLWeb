@@ -22,7 +22,7 @@ export const contactInfo = [
     {
         icon: 'images/ui/github-mark.png',
         label: 'GitHub：',
-        value: 'pubhub.com/like',
+        value: 'https://github.com/muaYoimiya/GRJLWeb',
         isLink: true,
         href: '#',
     },

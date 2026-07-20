@@ -134,19 +134,62 @@ export function initProfileTilt() {
         scheduleUpdate();
     }
 
+    function onTouchMove(e) {
+        if (usingOrientation) return;
+        const touch = e.touches[0];
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distX = touch.clientX - centerX;
+        const distY = touch.clientY - centerY;
+
+        targetX = Math.max(-maxOffset, Math.min(maxOffset, distX / normalizeFactor * maxOffset));
+        targetY = Math.max(-maxOffset, Math.min(maxOffset, distY / normalizeFactor * maxOffset));
+        scheduleUpdate();
+    }
+
+    let usingOrientation = false;
+
     function onDeviceOrientation(e) {
-        const gamma = e.gamma || 0;
-        const beta = e.beta || 0;
+        const gamma = e.gamma;
+        const beta = e.beta;
+        // 部分浏览器首次事件数据为 null，需过滤
+        if (gamma == null || beta == null) return;
+
+        if (!usingOrientation) {
+            usingOrientation = true;
+            window.removeEventListener('touchmove', onTouchMove);
+            window.removeEventListener('mousemove', onMouseMove);
+        }
 
         targetX = Math.max(-maxOffset, Math.min(maxOffset, gamma / 45 * maxOffset));
         targetY = Math.max(-maxOffset, Math.min(maxOffset, (beta - 45) / 45 * maxOffset));
         scheduleUpdate();
     }
 
-    const isTouchDevice = window.matchMedia('(hover: none)').matches;
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    if (isTouchDevice && window.DeviceOrientationEvent) {
-        window.addEventListener('deviceorientation', onDeviceOrientation);
+    if (isTouchDevice) {
+        // 触摸设备优先尝试陀螺仪，同时用 touchmove 兜底
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', onDeviceOrientation);
+        }
+        window.addEventListener('touchmove', onTouchMove, { passive: true });
+
+        // iOS 13+ 需要用户交互后才能申请陀螺仪权限
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            const requestPermission = () => {
+                DeviceOrientationEvent.requestPermission()
+                    .then(state => {
+                        if (state === 'granted') {
+                            window.addEventListener('deviceorientation', onDeviceOrientation);
+                        }
+                    })
+                    .catch(() => {});
+            };
+            window.addEventListener('click', requestPermission, { once: true });
+            window.addEventListener('touchstart', requestPermission, { once: true });
+        }
     } else {
         window.addEventListener('mousemove', onMouseMove);
     }
