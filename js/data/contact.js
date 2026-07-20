@@ -5,22 +5,22 @@
 
 export const contactInfo = [
     {
-        icon: 'images/ui/telephone.png',
+        icon: 'images/ui/telephone.webp',
         label: '电话：',
         value: '11451419198',
     },
     {
-        icon: 'images/ui/email.png',
+        icon: 'images/ui/email.webp',
         label: '邮箱：',
         value: '1433223@qq.com',
     },
     {
-        icon: 'images/ui/wechat.png',
+        icon: 'images/ui/wechat.webp',
         label: '微信：',
         value: 'yanamikawaii',
     },
     {
-        icon: 'images/ui/github-mark.png',
+        icon: 'images/ui/github-mark.webp',
         label: 'GitHub：',
         value: 'https://github.com/muaYoimiya/GRJLWeb',
         isLink: true,

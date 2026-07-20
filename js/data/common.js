@@ -5,7 +5,7 @@
 
 export const siteConfig = {
     name: '我的简历',
-    logo: 'images/ui/3y7.jpeg',
+    logo: 'images/ui/3y7.webp',
     copyright: '© 2077 Yanami. 保留所有权利.',
 };
 

@@ -19,7 +19,7 @@ export const carouselSlides = [
 ];
 
 export const profileData = {
-    avatar: 'images/ui/selfy.jpg',
+    avatar: 'images/ui/selfy.webp',
     name: 'Yanami',
     title: 'Java后端开发工程师',
     bio: '一名热爱各种开发的工程师，拥有3年的bilibili冲浪时间，喜欢使用LEGO、PVZH、SolidWorks等技术度过低质量的大学时间。我注重用户体验，致力于创造美观、易用、高效的IDEA和S.H.I.T',

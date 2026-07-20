@@ -5,6 +5,7 @@ import { resolve } from 'path'
 export default defineConfig({
   build: {
     cssCodeSplit: false,
+    sourcemap: false,
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
@@ -14,10 +15,9 @@ export default defineConfig({
         'project-detail': resolve(__dirname, 'project-detail.html'),
       },
       output: {
-        manualChunks: undefined,
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name][extname]',
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
       },
     },
   },
