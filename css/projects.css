@@ -149,6 +149,9 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .project-card:hover {
@@ -175,6 +178,9 @@
 
 .project-info {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .project-info h3 {
@@ -185,6 +191,7 @@
 .project-info p {
     margin-bottom: 1rem;
     color: #666;
+    flex-grow: 1;
 }
 
 .view-detail {
@@ -195,6 +202,7 @@
     border-radius: 5px;
     text-decoration: none;
     transition: background-color 0.3s ease;
+    align-self: flex-start;
 }
 
 .view-detail:hover {
