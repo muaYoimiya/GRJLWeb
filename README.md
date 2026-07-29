@@ -74,6 +74,16 @@ images分类
 
 修复项目卡片异常显示
 
+**7.27**
+
+使用 FastAPI 重写后端接口
+
+**7.29**
+
+补充 FastAPI 后端服务说明
+完善 .gitignore 规则
+配置 Agent skills（issue tracker、domain docs）
+
 ## 关于我
 
 日常情绪低落
@@ -89,8 +99,29 @@ images分类
 - **HTML / CSS / JavaScript** — 原生前端
 - **Git** — 存档点
 - **Vite** — 构建工具
-- **Python** — 后端开发
+- **FastAPI** — Python 后端框架
+- **Uvicorn** — ASGI 服务器
+- **Pydantic** — 请求体验证
 - **venv** — 虚拟环境，依赖管理
+
+---
+
+## 后端服务
+
+后端入口为 `backend/main.py`，使用 FastAPI 编写。
+
+```bash
+# 激活虚拟环境（Windows）
+backend\.venv\Scripts\activate
+
+# 启动后端开发服务器
+uvicorn backend.main:app --reload
+```
+
+当前接口：
+
+- `GET /api/profile` — 获取个人简介数据
+- `POST /api/analyze` — 文本分析示例
 
 ---
 
