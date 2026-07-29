@@ -18,6 +18,7 @@ export const contactInfo = [
         icon: 'images/ui/wechat.webp',
         label: '微信：',
         value: 'yanamikawaii',
+        noInvert: true,
     },
     {
         icon: 'images/ui/github-mark.webp',

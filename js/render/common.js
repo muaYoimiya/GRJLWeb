@@ -1,9 +1,45 @@
 /**
  * 公共渲染模块
- * 负责渲染导航栏和页脚
+ * 负责渲染导航栏（含主题切换按钮）和页脚
  */
 
 import { siteConfig, navItems, footerData } from '../data/common.js';
+import { toggleTheme, getCurrentTheme } from '../theme.js';
+
+/** 太阳图标 SVG */
+const SUN_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <circle cx="12" cy="12" r="5"/>
+  <line x1="12" y1="1" x2="12" y2="3"/>
+  <line x1="12" y1="21" x2="12" y2="23"/>
+  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+  <line x1="1" y1="12" x2="3" y2="12"/>
+  <line x1="21" y1="12" x2="23" y2="12"/>
+  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+</svg>`;
+
+/** 月亮图标 SVG */
+const MOON_ICON = `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+</svg>`;
+
+/**
+ * 创建主题切换按钮
+ * @returns {HTMLButtonElement}
+ */
+function createThemeToggle() {
+    const btn = document.createElement('button');
+    btn.className = 'theme-toggle';
+    btn.title = '切换亮色/暗色主题';
+    btn.setAttribute('aria-label', '切换主题');
+    btn.innerHTML = getCurrentTheme() === 'dark' ? SUN_ICON : MOON_ICON;
+    btn.addEventListener('click', () => {
+        const next = toggleTheme();
+        btn.innerHTML = next === 'dark' ? SUN_ICON : MOON_ICON;
+    });
+    return btn;
+}
 
 /**
  * 渲染导航栏
@@ -35,6 +71,10 @@ export function renderNavbar(containerSelector, currentPageId) {
     logoDiv.appendChild(logoImg);
     logoDiv.appendChild(logoTitle);
 
+    // 右侧区域：导航菜单 + 主题切换按钮
+    const rightDiv = document.createElement('div');
+    rightDiv.className = 'navbar-right';
+
     // 导航菜单
     const ul = document.createElement('ul');
     ul.className = 'nav-menu';
@@ -52,8 +92,14 @@ export function renderNavbar(containerSelector, currentPageId) {
     });
     ul.appendChild(navFragment);
 
+    // 主题切换按钮
+    const themeToggle = createThemeToggle();
+
+    rightDiv.appendChild(ul);
+    rightDiv.appendChild(themeToggle);
+
     inner.appendChild(logoDiv);
-    inner.appendChild(ul);
+    inner.appendChild(rightDiv);
     nav.appendChild(inner);
     container.appendChild(nav);
 }
@@ -83,6 +129,26 @@ export function renderMobileNav(currentPageId) {
         fragment.appendChild(a);
     });
     mobileNav.appendChild(fragment);
+}
+
+/**
+ * 渲染移动端悬浮主题切换按钮
+ * 固定在右上角，不随页面滚动，仅移动端可见
+ */
+export function renderFloatingThemeToggle() {
+    // 避免重复创建
+    if (document.querySelector('.floating-theme-toggle')) return;
+
+    const btn = document.createElement('button');
+    btn.className = 'floating-theme-toggle';
+    btn.title = '切换亮色/暗色主题';
+    btn.setAttribute('aria-label', '切换主题');
+    btn.innerHTML = getCurrentTheme() === 'dark' ? SUN_ICON : MOON_ICON;
+    btn.addEventListener('click', () => {
+        const next = toggleTheme();
+        btn.innerHTML = next === 'dark' ? SUN_ICON : MOON_ICON;
+    });
+    document.body.appendChild(btn);
 }
 
 /**

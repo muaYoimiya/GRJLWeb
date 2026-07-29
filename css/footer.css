@@ -4,8 +4,8 @@
  */
 
 footer {
-    background-color: #507ca8;
-    color: white;
+    background-color: var(--color-header-bg);
+    color: var(--text-on-primary);
     padding: 2rem 0;
     margin-top: 3rem;
 }
@@ -25,7 +25,7 @@ footer {
 }
 
 .footer-links a {
-    color: white;
+    color: var(--text-on-primary);
     text-decoration: none;
     display: block;
     margin-bottom: 0.5rem;
@@ -33,11 +33,11 @@ footer {
 }
 
 .footer-links a:hover {
-    color: #3498db;
+    color: var(--color-primary);
 }
 
 .footer-bottom {
     text-align: center;
-    border-top: 1px solid #34495e;
+    border-top: 1px solid var(--color-footer-border);
     padding-top: 1rem;
 }

@@ -1,11 +1,11 @@
 /**
  * 导航栏样式模块
- * 包含顶部导航栏、Logo、导航菜单等样式
+ * 包含顶部导航栏、Logo、导航菜单、主题切换按钮等样式
  */
 
 header {
-    background-color: #507ca8;
-    color: white;
+    background-color: var(--color-header-bg);
+    color: var(--text-on-primary);
     padding: 1rem 0;
     position: fixed;
     width: 100%;
@@ -13,10 +13,16 @@ header {
     z-index: 1000;
 }
 
-.navbar {
+.navbar .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .logo {
@@ -30,7 +36,7 @@ header {
     width: 40px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid white;
+    border: 2px solid var(--text-on-primary);
 }
 
 .logo h1 {
@@ -48,14 +54,36 @@ header {
 }
 
 .nav-menu a {
-    color: white;
+    color: var(--color-indicator-inactive);
     text-decoration: none;
     font-size: 1rem;
     transition: color 0.3s ease;
 }
 
 .nav-menu a:hover, .nav-menu a.active {
-    color: #3498db;
+    color: var(--text-on-primary);
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--text-on-primary);
+    color: var(--text-on-primary);
+    cursor: pointer;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.theme-toggle:hover {
+    background-color: var(--text-on-primary);
+    color: var(--color-header-bg);
 }
 
 /* 移动端底部导航栏 */
@@ -65,7 +93,7 @@ header {
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #3498db;
+    background-color: var(--color-mobile-nav-bg);
     z-index: 1000;
     justify-content: space-around;
     align-items: center;
@@ -79,7 +107,7 @@ header {
     justify-content: center;
     flex: 1;
     height: 100%;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--color-indicator-inactive);
     text-decoration: none;
     font-size: 0.75rem;
     font-weight: bold;
@@ -87,10 +115,43 @@ header {
 }
 
 .mobile-nav-item.active {
-    color: #ffffff;
+    color: var(--text-on-primary);
     font-weight: 700;
 }
 
 .mobile-nav-item:hover {
+    color: var(--text-on-primary);
+}
+
+/* 移动端悬浮主题切换按钮 */
+.floating-theme-toggle {
+    display: none;
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 999;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     color: #ffffff;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.floating-theme-toggle:active {
+    transform: scale(0.9);
+}
+
+@media (max-width: 768px) {
+    .floating-theme-toggle {
+        display: flex;
+    }
 }

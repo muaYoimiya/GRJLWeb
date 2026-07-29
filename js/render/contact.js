@@ -28,6 +28,10 @@ export function renderContactInfo() {
             icon.alt = info.label.replace('：', '');
             icon.className = 'info-icon';
             icon.loading = 'lazy';
+            // 标记不需要反色的图标（如微信）
+            if (info.noInvert) {
+                icon.setAttribute('data-no-invert', '');
+            }
             itemDiv.appendChild(icon);
         }
 

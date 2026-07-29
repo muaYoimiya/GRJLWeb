@@ -83,6 +83,8 @@ images分类
 补充 FastAPI 后端服务说明
 完善 .gitignore 规则
 配置 Agent skills（issue tracker、domain docs）
+实现暗色模式与主题切换
+首页头像点击动画改为左右探望效果，优化移动端触控体验
 
 ## 关于我
 

@@ -1,0 +1,83 @@
+/**
+ * CSS 变量定义模块
+ * 定义亮色/暗色双主题的全局样式变量
+ */
+
+/* 亮色主题（默认） */
+:root {
+    /* 背景色 */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f5f5;
+    --bg-tertiary: #e0e0e0;
+
+    /* 文字色 */
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-heading: #2c3e50;
+    --text-muted: #7f8c8d;
+    --text-on-primary: #ffffff;
+
+    /* 品牌色 */
+    --color-primary: #3498db;
+    --color-primary-hover: #2980b9;
+    --color-primary-light: #f0f8ff;
+
+    /* 导航/页脚 */
+    --color-header-bg: #507ca8;
+    --color-footer-border: #34495e;
+    --color-mobile-nav-bg: #3498db;
+    --color-mobile-dropdown-bg: #2c3e50;
+
+    /* 语义色 */
+    --color-error: #e74c3c;
+    --color-back-btn-hover: #bdc3c7;
+    --color-indicator-inactive: rgba(255, 255, 255, 0.5);
+
+    /* 组件专用色 */
+    --color-carousel-bg: #3498db;
+    --color-tag-bg: #3498db;
+
+    /* 边框 */
+    --border-color: #e0e0e0;
+
+    /* 阴影 */
+    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --shadow-card-hover: 0 5px 20px rgba(0, 0, 0, 0.15);
+    --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 暗色主题 */
+[data-theme="dark"] {
+    --bg-primary: #1e1e2e;
+    --bg-secondary: #181825;
+    --bg-tertiary: #313244;
+
+    --text-primary: #cdd6f4;
+    --text-secondary: #a6adc8;
+    --text-heading: #cdd6f4;
+    --text-muted: #6c7086;
+    --text-on-primary: #ffffff;
+
+    --color-primary: #89b4fa;
+    --color-primary-hover: #74c7ec;
+    --color-primary-light: #1e2433;
+
+    --color-header-bg: #11111b;
+    --color-footer-border: #45475a;
+    --color-mobile-nav-bg: #1a1a2e;
+    --color-mobile-dropdown-bg: #11111b;
+
+    --color-error: #f38ba8;
+    --color-back-btn-hover: #45475a;
+    --color-indicator-inactive: rgba(255, 255, 255, 0.3);
+
+    /* 暗色下降低大面积色块亮度 */
+    --color-carousel-bg: #1e3044;
+    --color-tag-bg: #2e4a6e;
+
+    --border-color: #45475a;
+
+    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3);
+    --shadow-card-hover: 0 5px 20px rgba(0, 0, 0, 0.4);
+    --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.3);
+}

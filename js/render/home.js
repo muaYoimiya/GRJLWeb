@@ -136,37 +136,69 @@ export function initProfileTilt() {
         scheduleUpdate();
     }
 
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (isTouchDevice) {
-        let isOrbiting = false;
-        container.addEventListener('click', () => {
-            if (isOrbiting) return;
-            isOrbiting = true;
-
-            const radius = 10;
-            const duration = 1000;
-            const startTime = performance.now();
-
-            function animate(now) {
-                const elapsed = now - startTime;
-                if (elapsed >= duration) {
-                    img.style.transform = 'translate(0px, 0px) scale(1.1)';
-                    isOrbiting = false;
-                    return;
-                }
-
-                const progress = elapsed / duration;
-                const angle = progress * 2 * Math.PI;
-                const x = radius * Math.cos(angle);
-                const y = radius * Math.sin(angle);
-                img.style.transform = `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) scale(1.1)`;
-                requestAnimationFrame(animate);
-            }
-
-            requestAnimationFrame(animate);
-        });
-    } else {
+    // 桌面端：鼠标移动产生视差倾斜
+    if (!('ontouchstart' in window)) {
         window.addEventListener('mousemove', onMouseMove);
     }
+
+    // 点击左右探望动画（所有设备通用）
+    // 模拟人观望节奏：快速转向一侧 → 短暂停留 → 转向另一侧 → 停留 → 缓慢归位
+    let isSwinging = false;
+    container.addEventListener('click', () => {
+        if (isSwinging) return;
+        isSwinging = true;
+
+        const amplitude = 14;
+        const maxRotate = 5;
+        const duration = 1800;
+        const startTime = performance.now();
+
+        // [进度, translateX归一化值, rotate归一化值]
+        const keyframes = [
+            [0,    0,  0],   // 起始：正中
+            [0.20, 1,  1],   // 快速探向右侧
+            [0.26, 1,  1],   // 右侧短暂停留
+            [0.48, -1, -1],  // 转向左侧
+            [0.54, -1, -1],  // 左侧短暂停留
+            [1.0,  0,  0],   // 缓慢回到正中
+        ];
+
+        function lerpKeyframes(t) {
+            // 找到 t 所在的区间
+            for (let i = 0; i < keyframes.length - 1; i++) {
+                const [t0] = keyframes[i];
+                const [t1] = keyframes[i + 1];
+                if (t >= t0 && t <= t1) {
+                    const local = (t - t0) / (t1 - t0);
+                    // smoothstep 插值，让段间过渡更自然
+                    const s = local * local * (3 - 2 * local);
+                    const [, x0, r0] = keyframes[i];
+                    const [, x1, r1] = keyframes[i + 1];
+                    return [
+                        x0 + (x1 - x0) * s,
+                        r0 + (r1 - r0) * s,
+                    ];
+                }
+            }
+            return [0, 0];
+        }
+
+        function animate(now) {
+            const elapsed = now - startTime;
+            if (elapsed >= duration) {
+                img.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1.1)';
+                isSwinging = false;
+                return;
+            }
+
+            const progress = elapsed / duration;
+            const [nx, nr] = lerpKeyframes(progress);
+            const tx = nx * amplitude;
+            const rot = nr * maxRotate;
+            img.style.transform = `translate(${tx.toFixed(2)}px, 0px) rotate(${rot.toFixed(2)}deg) scale(1.1)`;
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    });
 }

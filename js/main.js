@@ -4,7 +4,11 @@
  */
 
 import { onDOMReady, getCurrentPage } from './utils.js';
-import { renderNavbar, renderMobileNav, renderFooter } from './render/common.js';
+import { renderNavbar, renderMobileNav, renderFooter, renderFloatingThemeToggle } from './render/common.js';
+import { initTheme } from './theme.js';
+
+// 在渲染前初始化主题，避免页面闪烁
+initTheme();
 
 function initApp() {
     const currentPage = getCurrentPage();
@@ -21,6 +25,7 @@ function initApp() {
     renderNavbar('header', currentPageId);
     renderMobileNav(currentPageId);
     renderFooter('footer');
+    renderFloatingThemeToggle();
 
     switch (currentPage) {
         case 'index.html':
