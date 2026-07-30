@@ -7,17 +7,33 @@
 const STORAGE_KEY = 'entrance_visited';
 
 /**
+ * 判断是否从外部进入网站
+ * 通过 document.referrer 判断来源是否为本站，站内页面跳转不视为外部进入
+ * @returns {boolean}
+ */
+function isExternalEntry() {
+    if (!document.referrer) return true;
+    try {
+        const referrerUrl = new URL(document.referrer);
+        return referrerUrl.origin !== window.location.origin;
+    } catch {
+        return true;
+    }
+}
+
+/**
  * 初始化入场动画
- * 每次外部进入网站时触发，项目内页面跳转不触发，仅首页生效
+ * 仅外部进入首页时触发（直接输入URL、外部链接、书签等），站内页面跳转不触发
  * @returns {Promise<boolean>} true 表示播放了入场动画，false 表示跳过
  */
 export function initEntranceAnimation() {
     const path = window.location.pathname;
-    const isIndexPage = /index\.html$/.test(path)
-        || path === '/'
-        || path.endsWith('/');
+    const isIndexPage = /index\.html$/.test(path) || path === '/';
 
     if (!isIndexPage) return Promise.resolve(false);
+
+    // 站内页面间跳转不触发入场动画
+    if (!isExternalEntry()) return Promise.resolve(false);
 
     if (sessionStorage.getItem(STORAGE_KEY)) return Promise.resolve(false);
 
