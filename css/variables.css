@@ -5,6 +5,9 @@
 
 /* 亮色主题（默认） */
 :root {
+    /* 禁止浏览器自动应用系统深色模式到表单控件 */
+    color-scheme: light;
+
     /* 背景色 */
     --bg-primary: #ffffff;
     --bg-secondary: #f5f5f5;
@@ -48,6 +51,9 @@
 
 /* 暗色主题 */
 [data-theme="dark"] {
+    /* 告诉浏览器该主题下表单控件使用暗色渲染 */
+    color-scheme: dark;
+
     --bg-primary: #1e1e2e;
     --bg-secondary: #181825;
     --bg-tertiary: #313244;
