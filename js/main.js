@@ -49,16 +49,36 @@ function initApp() {
 }
 
 async function initHome() {
-    const [{ renderCarousel, renderProfile, initProfileTilt }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
+    const [{ renderCarousel, renderProfile, initProfileClickAnim }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
         import('./render/home.js'),
         import('./index_1.js'),
         import('./index_2.js'),
     ]);
     renderCarousel();
     renderProfile();
-    initProfileTilt();
-    initCarousel();
+    initProfileClickAnim();
     initScrollAnimation();
+
+    // 入场动画（每次外部进入触发，内部跳转跳过）
+    const { initEntranceAnimation } = await import('./entrance.js');
+    const entrancePlayed = await initEntranceAnimation();
+
+    if (entrancePlayed) {
+        // 入场动画播放完毕，导航栏 1s 淡入
+        const header = document.querySelector('header');
+        if (header) {
+            header.style.transition = 'opacity 1s ease';
+            // 强制回流后触发过渡
+            header.offsetHeight;
+            header.style.opacity = '1';
+            header.addEventListener('transitionend', () => {
+                header.style.transition = '';
+            }, { once: true });
+        }
+    }
+
+    // 入场动画结束后再启动轮播图
+    initCarousel();
 }
 
 async function initAbout() {

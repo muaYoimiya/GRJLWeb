@@ -79,70 +79,16 @@ export function renderProfile() {
 }
 
 /**
- * 初始化头像视差倾斜效果
- * PC端根据鼠标位置偏移，移动端根据重力感应偏移
+ * 初始化头像点击左右探望动画（所有设备通用）
+ * 模拟人观望节奏：快速转向一侧 → 短暂停留 → 转向另一侧 → 停留 → 缓慢归位
  */
-export function initProfileTilt() {
+export function initProfileClickAnim() {
     const container = document.querySelector('.profile-photo');
     const img = container?.querySelector('img');
     if (!container || !img) return;
 
-    const maxOffset = 15;
-    const lerpFactor = 0.12;
-    const stopThreshold = 0.05;
-    const normalizeFactor = 300;
-
-    let targetX = 0;
-    let targetY = 0;
-    let currentX = 0;
-    let currentY = 0;
-    let rafId = null;
-
     img.style.transform = 'translate(0px, 0px) scale(1.1)';
 
-    function update() {
-        const diffX = targetX - currentX;
-        const diffY = targetY - currentY;
-
-        if (Math.abs(diffX) < stopThreshold && Math.abs(diffY) < stopThreshold) {
-            currentX = targetX;
-            currentY = targetY;
-            img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
-            rafId = null;
-            return;
-        }
-
-        currentX += diffX * lerpFactor;
-        currentY += diffY * lerpFactor;
-        img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
-        rafId = requestAnimationFrame(update);
-    }
-
-    function scheduleUpdate() {
-        if (!rafId) {
-            rafId = requestAnimationFrame(update);
-        }
-    }
-
-    function onMouseMove(e) {
-        const rect = container.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const distX = e.clientX - centerX;
-        const distY = e.clientY - centerY;
-
-        targetX = Math.max(-maxOffset, Math.min(maxOffset, distX / normalizeFactor * maxOffset));
-        targetY = Math.max(-maxOffset, Math.min(maxOffset, distY / normalizeFactor * maxOffset));
-        scheduleUpdate();
-    }
-
-    // 桌面端：鼠标移动产生视差倾斜
-    if (!('ontouchstart' in window)) {
-        window.addEventListener('mousemove', onMouseMove);
-    }
-
-    // 点击左右探望动画（所有设备通用）
-    // 模拟人观望节奏：快速转向一侧 → 短暂停留 → 转向另一侧 → 停留 → 缓慢归位
     let isSwinging = false;
     container.addEventListener('click', () => {
         if (isSwinging) return;
@@ -155,22 +101,20 @@ export function initProfileTilt() {
 
         // [进度, translateX归一化值, rotate归一化值]
         const keyframes = [
-            [0,    0,  0],   // 起始：正中
-            [0.20, 1,  1],   // 快速探向右侧
-            [0.26, 1,  1],   // 右侧短暂停留
-            [0.48, -1, -1],  // 转向左侧
-            [0.54, -1, -1],  // 左侧短暂停留
-            [1.0,  0,  0],   // 缓慢回到正中
+            [0,    0,  0],
+            [0.20, 1,  1],
+            [0.26, 1,  1],
+            [0.48, -1, -1],
+            [0.54, -1, -1],
+            [1.0,  0,  0],
         ];
 
         function lerpKeyframes(t) {
-            // 找到 t 所在的区间
             for (let i = 0; i < keyframes.length - 1; i++) {
                 const [t0] = keyframes[i];
                 const [t1] = keyframes[i + 1];
                 if (t >= t0 && t <= t1) {
                     const local = (t - t0) / (t1 - t0);
-                    // smoothstep 插值，让段间过渡更自然
                     const s = local * local * (3 - 2 * local);
                     const [, x0, r0] = keyframes[i];
                     const [, x1, r1] = keyframes[i + 1];

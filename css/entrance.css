@@ -1,0 +1,30 @@
+/**
+ * 入场动画样式模块
+ * 每日首次进入网站时显示全屏 Welcome 覆盖层
+ */
+
+.entrance-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-carousel-bg);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: auto;
+    will-change: height, top, opacity;
+}
+
+.entrance-text {
+    color: var(--text-on-primary);
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    white-space: nowrap;
+    will-change: transform;
+    transform: scale(2);
+    transform-origin: center center;
+}
