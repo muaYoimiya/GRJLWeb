@@ -169,7 +169,7 @@
 }
 
 @media (max-width: 480px) {
-    .logo h1 {
+    .site-title {
         font-size: 1.2rem;
     }
 

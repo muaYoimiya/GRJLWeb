@@ -58,18 +58,10 @@ export function renderNavbar(containerSelector, currentPageId) {
     const inner = document.createElement('div');
     inner.className = 'container';
 
-    // Logo
-    const logoDiv = document.createElement('div');
-    logoDiv.className = 'logo';
-    const logoImg = document.createElement('img');
-    logoImg.src = siteConfig.logo;
-    logoImg.alt = 'Logo';
-    logoImg.className = 'logo-img';
-    logoImg.loading = 'lazy';
-    const logoTitle = document.createElement('h1');
-    logoTitle.textContent = siteConfig.name;
-    logoDiv.appendChild(logoImg);
-    logoDiv.appendChild(logoTitle);
+    // 站点标题
+    const siteTitle = document.createElement('h1');
+    siteTitle.className = 'site-title';
+    siteTitle.textContent = siteConfig.name;
 
     // 右侧区域：导航菜单 + 主题切换按钮
     const rightDiv = document.createElement('div');
@@ -98,7 +90,7 @@ export function renderNavbar(containerSelector, currentPageId) {
     rightDiv.appendChild(ul);
     rightDiv.appendChild(themeToggle);
 
-    inner.appendChild(logoDiv);
+    inner.appendChild(siteTitle);
     inner.appendChild(rightDiv);
     nav.appendChild(inner);
     container.appendChild(nav);

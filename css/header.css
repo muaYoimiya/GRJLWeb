@@ -25,21 +25,7 @@ header {
     gap: 1rem;
 }
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo-img {
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--text-on-primary);
-}
-
-.logo h1 {
+.site-title {
     font-size: 1.5rem;
     margin: 0;
 }
@@ -67,7 +53,7 @@ header {
 /* 主题切换按钮 */
 .theme-toggle {
     background: none;
-    border: 2px solid var(--text-on-primary);
+    border: none;
     color: var(--text-on-primary);
     cursor: pointer;
     width: 36px;
