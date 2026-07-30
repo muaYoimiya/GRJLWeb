@@ -5,7 +5,7 @@
 
 .about-me {
     background-color: var(--bg-primary);
-    padding: 2rem;
+    padding: 100px 2rem 50px;
     border-radius: 8px;
     box-shadow: var(--shadow-card);
     margin-bottom: 2rem;
@@ -13,13 +13,14 @@
 
 .about-me .container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 2rem;
 }
 
 .profile-photo {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     border: 5px solid rgba(135, 206, 235, 0.45);
     backdrop-filter: blur(8px);
@@ -34,12 +35,16 @@
 }
 
 .profile-photo img {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
     object-fit: cover;
     display: block;
     will-change: transform;
     pointer-events: none;
+}
+
+.profile-info {
+    text-align: center;
 }
 
 .profile-info h2 {
@@ -55,12 +60,24 @@
 .profile-info p {
     margin-bottom: 1rem;
     line-height: 1.8;
+    max-width: 35em;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .skills {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    justify-content: center;
+    max-width: 28em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 存在长度超过11字符的标签时，放宽宽度容纳每行3个 */
+.skills--long-tags {
+    max-width: 38em;
 }
 
 .skills span {

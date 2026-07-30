@@ -49,14 +49,21 @@ function initApp() {
 }
 
 async function initHome() {
-    const [{ renderCarousel, renderProfile, initProfileClickAnim }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
+    const [{ renderCarousel, renderProfile, initProfileTilt, initProfileClickAnim }, { initCarousel }, { initScrollAnimation }] = await Promise.all([
         import('./render/home.js'),
         import('./index_1.js'),
         import('./index_2.js'),
     ]);
     renderCarousel();
     renderProfile();
-    initProfileClickAnim();
+
+    // PC端鼠标跟随，移动端点击摆动
+    const isTouchDevice = window.matchMedia('(hover: none)').matches;
+    if (isTouchDevice) {
+        initProfileClickAnim();
+    } else {
+        initProfileTilt();
+    }
     initScrollAnimation();
 
     // 入场动画（每次外部进入触发，内部跳转跳过）

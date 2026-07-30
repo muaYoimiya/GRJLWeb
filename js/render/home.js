@@ -65,12 +65,17 @@ export function renderProfile() {
     const skillsDiv = document.createElement('div');
     skillsDiv.className = 'skills';
     const skillsFragment = document.createDocumentFragment();
+    let hasLongTag = false;
     profileData.skills.forEach(skill => {
         const span = document.createElement('span');
         span.textContent = skill;
+        if (skill.length > 11) hasLongTag = true;
         skillsFragment.appendChild(span);
     });
     skillsDiv.appendChild(skillsFragment);
+    if (hasLongTag) {
+        skillsDiv.classList.add('skills--long-tags');
+    }
 
     infoContainer.appendChild(name);
     infoContainer.appendChild(title);
@@ -79,7 +84,67 @@ export function renderProfile() {
 }
 
 /**
- * 初始化头像点击左右探望动画（所有设备通用）
+ * 初始化头像视差倾斜效果（PC端）
+ * 根据鼠标位置偏移
+ */
+export function initProfileTilt() {
+    const container = document.querySelector('.profile-photo');
+    const img = container?.querySelector('img');
+    if (!container || !img) return;
+
+    const maxOffset = 15;
+    const lerpFactor = 0.12;
+    const stopThreshold = 0.05;
+    const normalizeFactor = 300;
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let rafId = null;
+
+    function update() {
+        const diffX = targetX - currentX;
+        const diffY = targetY - currentY;
+
+        if (Math.abs(diffX) < stopThreshold && Math.abs(diffY) < stopThreshold) {
+            currentX = targetX;
+            currentY = targetY;
+            img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
+            rafId = null;
+            return;
+        }
+
+        currentX += diffX * lerpFactor;
+        currentY += diffY * lerpFactor;
+        img.style.transform = `translate(${currentX.toFixed(2)}px, ${currentY.toFixed(2)}px) scale(1.1)`;
+        rafId = requestAnimationFrame(update);
+    }
+
+    function scheduleUpdate() {
+        if (!rafId) {
+            rafId = requestAnimationFrame(update);
+        }
+    }
+
+    function onMouseMove(e) {
+        const rect = container.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const distX = e.clientX - centerX;
+        const distY = e.clientY - centerY;
+
+        targetX = Math.max(-maxOffset, Math.min(maxOffset, distX / normalizeFactor * maxOffset));
+        targetY = Math.max(-maxOffset, Math.min(maxOffset, distY / normalizeFactor * maxOffset));
+        scheduleUpdate();
+    }
+
+    img.style.transform = 'translate(0px, 0px) scale(1.1)';
+    window.addEventListener('mousemove', onMouseMove);
+}
+
+/**
+ * 初始化头像点击左右探望动画（移动端）
  * 模拟人观望节奏：快速转向一侧 → 短暂停留 → 转向另一侧 → 停留 → 缓慢归位
  */
 export function initProfileClickAnim() {
