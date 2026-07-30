@@ -21,7 +21,9 @@
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    border: 5px solid var(--color-primary);
+    border: 5px solid rgba(135, 206, 235, 0.45);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 0 20px rgba(135, 206, 235, 0.25);
     overflow: hidden;
     position: relative;
     flex-shrink: 0;
