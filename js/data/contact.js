@@ -30,7 +30,7 @@ export const contactInfo = [
     {
         icon: null,
         label: '地址：',
-        value: '广州市黑云区太平天国广粥理公学院',
+        value: '广州市白云区史莱克学院',
     },
 ];
 
