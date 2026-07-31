@@ -1,0 +1,29 @@
+/**
+ * 语录动画样式模块
+ * 首页个人介绍区动态背景 — 文字语录淡入淡出浮动动画
+ */
+
+/* 语录背景层 — 绝对定位覆盖 .about-me，作为内容下方的动态背景 */
+.quotes-bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* 单条语录 — 绝对定位，由 JS 设置 left/top */
+.quote-span {
+    position: absolute;
+    max-width: 200px;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text-muted);
+    opacity: 0;
+    white-space: normal;
+    word-break: break-all;
+    overflow-wrap: break-word;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform, opacity;
+}

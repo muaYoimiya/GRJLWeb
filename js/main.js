@@ -66,6 +66,11 @@ async function initHome() {
     }
     initScrollAnimation();
 
+    // 启动首页语录背景动画
+    import('./quotesAnimation.js').then(({ initQuotesAnimation }) => {
+        initQuotesAnimation();
+    });
+
     // 入场动画（每次外部进入触发，内部跳转跳过）
     const { initEntranceAnimation } = await import('./entrance.js');
     const entrancePlayed = await initEntranceAnimation();
