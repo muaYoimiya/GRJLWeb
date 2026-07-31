@@ -66,14 +66,14 @@ async function initHome() {
     }
     initScrollAnimation();
 
-    // 启动首页语录背景动画
-    import('./quotesAnimation.js').then(({ initQuotesAnimation }) => {
-        initQuotesAnimation();
-    });
-
     // 入场动画（每次外部进入触发，内部跳转跳过）
     const { initEntranceAnimation } = await import('./entrance.js');
     const entrancePlayed = await initEntranceAnimation();
+
+    // 语录背景动画 — 若触发开屏动画则等待其结束后再启动
+    import('./quotesAnimation.js').then(({ initQuotesAnimation }) => {
+        initQuotesAnimation();
+    });
 
     if (entrancePlayed) {
         // 入场动画播放完毕，导航栏 1s 淡入
