@@ -5,7 +5,9 @@
  * 碰撞检测保证多条语录显示位置不重合
  */
 
-const MAX_ACTIVE = 9;          // 最多同时显示数
+const MAX_ACTIVE_DESKTOP = 9;   // 桌面端最多同时显示数
+const MAX_ACTIVE_MOBILE = 3;    // 移动端最多同时显示数
+const MOBILE_BP = 768;          // 移动端断点 px
 const SPAWN_MIN = 300;         // 生成间隔最小值 ms
 const SPAWN_MAX = 1000;        // 生成间隔最大值 ms
 const FADE_IN_MS = 3000;       // 冒出持续 ms
@@ -55,7 +57,7 @@ function scheduleNext(layer, quotes) {
  * 生成一条语录并启动动画
  */
 function spawnQuote(layer, quotes) {
-    if (activeQuotes.length >= MAX_ACTIVE) return;
+    if (activeQuotes.length >= getMaxActive()) return;
 
     // 从尚未在本轮使用的语录中随机选取
     const available = quotes.filter(q => !usedTexts.has(q));
@@ -137,6 +139,13 @@ function animateFadeOut(el, onDone) {
         el.remove();
         onDone();
     };
+}
+
+/**
+ * 根据视口宽度返回最大同时显示数
+ */
+function getMaxActive() {
+    return window.innerWidth <= MOBILE_BP ? MAX_ACTIVE_MOBILE : MAX_ACTIVE_DESKTOP;
 }
 
 /**
